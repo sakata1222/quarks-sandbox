@@ -1,41 +1,48 @@
 plugins {
-    id 'java'
-    id 'io.quarkus'
+  id 'java'
+  id 'io.quarkus'
 }
 
 repositories {
-     mavenLocal()
-     mavenCentral()
+  mavenLocal()
+  mavenCentral()
 }
 
 dependencies {
-    implementation 'io.quarkus:quarkus-jdbc-h2'
-    implementation 'io.quarkus:quarkus-flyway'
-    implementation 'io.quarkus:quarkus-rest-client-jackson'
-    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation 'io.quarkus:quarkus-resteasy'
+  implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+  implementation 'io.quarkus:quarkus-jdbc-postgresql'
+  implementation 'io.quarkus:quarkus-flyway'
+  implementation 'io.quarkus:quarkus-rest-client-jackson'
+  implementation 'io.quarkus:quarkus-resteasy-jackson'
+  implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
 
-    testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.rest-assured:rest-assured'
+  compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+
+  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+
+  testImplementation 'io.quarkus:quarkus-junit5'
+  testImplementation 'io.rest-assured:rest-assured'
+  testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.14.2'
+  testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.14.2'
 }
 
 group 'jp.gr.java_conf.saka'
 version '1.0.0-SNAPSHOT'
 
 compileJava {
-    options.encoding = 'UTF-8'
-    options.compilerArgs << '-parameters'
+  options.encoding = 'UTF-8'
+  options.compilerArgs << '-parameters'
 }
 
 compileTestJava {
-    options.encoding = 'UTF-8'
+  options.encoding = 'UTF-8'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_14
+  targetCompatibility = JavaVersion.VERSION_14
 }
 
 test {
-    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+  systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
